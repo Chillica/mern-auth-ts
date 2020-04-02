@@ -1,0 +1,17 @@
+{
+  "name": "mern-auth-ts",
+  "version": "1.0.0",
+  "description": "Basic Mern Authentication Setup",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "mongodb",
+    "expressjs",
+    "nodejs",
+    "reactjs"
+  ],
+  "author": "Jacob Ashcraft",
+  "license": "ISC"
+}
