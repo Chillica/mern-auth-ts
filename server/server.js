@@ -1,50 +1,43 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const path = require('path');
-require('dotenv').config();
+const config = require('./config/keys');
+const app = express();
 
-const articles = require('./routes/articlesRoute.js');
-const users = require('./routes/usersRoute.js');
-const config = require('./config/keys.js');
+// Connect to database
+mongoose.connect(config.mongodbURI, { useUnifiedTopology: true, useNewUrlParser: true })
+    .then( () => {
+        console.log('Connected to MongoDB');
+    }).catch((error) => {
+        console.log(error);
+    });
 
-const MONGODB_URI = config.mongodburi || 'mongodb://localhost:27017/basic-mern-app';
-const PORT = process.env.PORT || 5000;
-
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-mongoose.connection.on('connected', () => {
-    console.log('Connected to MongoDB');
-});
-mongoose.connection.on('error', (error) => {
-    console.log(error);
-});
-
-let app = express();
+// API routes
+require('./routes');
 
 // Body Parser Middleware
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.use((req, res, next) => {
-     res.header("Access-Control-Allow-Origin", "*");
-     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-     if (req.method === 'OPTIONS') {
-         res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE, GET");
-         return res.status(200).json({});
-     }
-     next();
-});
-
-app.use('/api/articles', articles);
-app.use('/api/users', users);
+app.use(
+    bodyParser.urlencoded({extended: false}), 
+    bodyParser.json(),
+    passport.initialize(),
+    passport.session(),
+    express.static(path.join(__dirname, '../client/build')),
+    (req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        if (req.method === 'OPTIONS') {
+            res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE, GET");
+            return res.status(200).json({});
+        }
+        next();
+   });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/build/index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log('Server started on port', PORT);
+app.listen(config.port, () => {
+    console.log(`Server up and running on port ${config.port}!`);
 });

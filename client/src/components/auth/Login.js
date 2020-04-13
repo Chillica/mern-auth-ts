@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../api/authActions";
+import { loginUser } from "../../api/auth";
 import classnames from "classnames";
 
 class Login extends Component {

@@ -1,7 +1,7 @@
 {
   "name": "mern-auth-ts",
   "version": "1.0.0",
-  "description": "Basic Mern Authentication Setup",
+  "description": "Basic MERN Authentication Setup",
   "main": "index.js",
   "scripts": {
     "test": "npm test"

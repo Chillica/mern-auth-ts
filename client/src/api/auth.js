@@ -1,8 +1,18 @@
 import axios from "axios";
-import setAuthToken from "./setAuth";
 import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+
+
+export const setAuthToken = token => {
+  if (token) {
+    // Apply authorization token to every request if logged in
+    axios.defaults.headers.common["Authorization"] = token;
+  } else {
+    // Delete auth header
+    delete axios.defaults.headers.common["Authorization"];
+  }
+};
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
