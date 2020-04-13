@@ -3,12 +3,19 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const v = require("../validation");
 
 module.exports = (router) => {
   // @route POST api/users/register
   // @desc Register user
   // @access Public
   router.post("/register", (req, res) => {
+    const { errors, isValid } = v.validateRegisterInput(req.body);
+
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     User.findOne({ email: req.body.email }).then(user => {
       if (user) {
         return res.status(400).json({ email: "Email already exists" });
@@ -40,6 +47,14 @@ module.exports = (router) => {
   // @desc Login user and return JWT token
   // @access Public
   router.post("/login", (req, res) => {
+    // Form validation
+    const { errors, isValid } = v.validateLoginInput(req.body);
+
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    
     const email = req.body.email;
     const password = req.body.password;
 
