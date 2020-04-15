@@ -4,13 +4,13 @@
   "description": "Basic MERN Authentication Setup",
   "main": "index.js",
   "scripts": {
-    "full-install": "npm i && npm i --prefix client && npm i --prefix server",
-    "client-install": "npm i --prefix client",
-    "server-install": "npm i --prefix server",
+    "full-install": "npm install --prefix client && npm install --prefix server",
+    "client-install": "npm install --prefix client",
+    "server-install": "npm install --prefix server",
     "start": "npm run full-install && npm run dev",
     "server": "npm run --prefix server server-watch",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run --prefix server server-watch\" \"npm start --prefix client\"",
+    "dev": "npm run --prefix server dev",
     "test": "npm test"
   },
   "keywords": [
@@ -20,8 +20,5 @@
     "reactjs"
   ],
   "author": "Jacob Ashcraft",
-  "license": "ISC",
-  "dependencies": {
-    "concurrently": "^5.1.0"
-  }
+  "license": "ISC"
 }
