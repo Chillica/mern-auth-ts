@@ -7,7 +7,12 @@ const config = require('./config/keys');
 const app = express();
 
 // Connect to database
-mongoose.connect(config.mongodbURI, { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(config.mongodbURI, { 
+    useUnifiedTopology: true, 
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+})
     .then( () => {
         console.log('Connected to MongoDB');
     }).catch((error) => {
@@ -15,7 +20,7 @@ mongoose.connect(config.mongodbURI, { useUnifiedTopology: true, useNewUrlParser:
     });
 
 // API routes
-require('./routes');
+require('./routes')(express.Router());
 
 // Body Parser Middleware
 app.use(
