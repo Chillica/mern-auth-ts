@@ -24,7 +24,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "typescript": "^3.7.5",
-    "validator": "^10.9.0",
+    "validator": "^13.7.0",
     "concurrently": "^5.1.0"
   },
   "scripts": {
